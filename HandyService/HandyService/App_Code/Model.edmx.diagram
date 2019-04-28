@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="22520310b1fe409d9f8c5dd96beb0840" Name="Diagram1">
+        <EntityTypeShape EntityType="handymanModel.Client" Width="1.5" PointX="0.625" PointY="1.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="handymanModel.Job" Width="1.5" PointX="5" PointY="3.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="handymanModel.Worker" Width="1.5" PointX="7.625" PointY="1.25" IsExpanded="true" />
+        <AssociationConnector Association="handymanModel.FK_ClientJob" ManuallyRouted="false" />
+        <AssociationConnector Association="handymanModel.FK_JobWorker" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="handymanModel.User" Width="1.5" PointX="4.875" PointY="0.5" />
+        <InheritanceConnector EntityType="handymanModel.Client" />
+        <InheritanceConnector EntityType="handymanModel.Worker" />
+        <EntityTypeShape EntityType="handymanModel.Certificate" Width="1.5" PointX="11.125" PointY="1" />
+        <AssociationConnector Association="handymanModel.WorkerCertificate" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>
