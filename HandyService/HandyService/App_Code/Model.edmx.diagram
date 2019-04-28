@@ -10,7 +10,7 @@
         <EntityTypeShape EntityType="handymanModel.Worker" Width="1.5" PointX="7.625" PointY="1.25" IsExpanded="true" />
         <AssociationConnector Association="handymanModel.FK_ClientJob" ManuallyRouted="false" />
         <AssociationConnector Association="handymanModel.FK_JobWorker" ManuallyRouted="false" />
-        <EntityTypeShape EntityType="handymanModel.User" Width="1.5" PointX="4.875" PointY="0.5" />
+        <EntityTypeShape EntityType="handymanModel.User" Width="1.5" PointX="4.875" PointY="0.5" IsExpanded="true" />
         <InheritanceConnector EntityType="handymanModel.Client" />
         <InheritanceConnector EntityType="handymanModel.Worker" />
         <EntityTypeShape EntityType="handymanModel.Certificate" Width="1.5" PointX="11.125" PointY="1" />

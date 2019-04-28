@@ -143,26 +143,26 @@
     <edmx:ConceptualModels>
       <Schema Namespace="handymanModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
         <EntityType Name="Client" BaseType="handymanModel.User">
-          <Property Name="clientId" Type="Int32" Nullable="false" />
-          <Property Name="email" Type="String" MaxLength="100" FixedLength="true" Unicode="true" Nullable="false" />
+          <Property Name="ClientId" Type="Int32" Nullable="false" />
+          <Property Name="Email" Type="String" MaxLength="100" FixedLength="true" Unicode="true" Nullable="false" />
           <Property Name="Name" Type="String" MaxLength="50" FixedLength="true" Unicode="true" Nullable="false" />
           <NavigationProperty Name="Jobs" Relationship="Self.FK_ClientJob" FromRole="Clients" ToRole="Jobs" />
         </EntityType>
         <EntityType Name="Job">
           <Key>
-            <PropertyRef Name="workerId" />
-            <PropertyRef Name="clientId" />
+            <PropertyRef Name="JobId" />
+            <PropertyRef Name="ClientId" />
+            <PropertyRef Name="WorkerId" />
           </Key>
-          <Property Name="workerId" Type="Int32" Nullable="false" />
-          <Property Name="clientId" Type="Int32" Nullable="false" />
-          <Property Name="task" Type="String" MaxLength="100" FixedLength="true" Unicode="true" />
-          <Property Name="Client_clientId" Type="Int32" Nullable="false" />
-          <Property Name="Worker_workerId" Type="Int32" Nullable="false" />
+          <Property Name="JobId" Type="String" Nullable="false" />
+          <Property Name="ClientId" Type="Int32" Nullable="false" />
+          <Property Name="WorkerId" Type="Int32" Nullable="false" />
+          <Property Name="Task" Type="String" MaxLength="100" FixedLength="true" Unicode="true" />
           <NavigationProperty Name="Client" Relationship="Self.FK_ClientJob" FromRole="Jobs" ToRole="Clients" />
           <NavigationProperty Name="Worker" Relationship="Self.FK_JobWorker" FromRole="Jobs" ToRole="Workers" />
         </EntityType>
         <EntityType Name="Worker" BaseType="handymanModel.User">
-          <Property Name="workerId" Type="Int32" Nullable="false" />
+          <Property Name="WorkerId" Type="Int32" Nullable="false" />
           <Property Name="Name" Type="String" MaxLength="50" FixedLength="true" Unicode="true" Nullable="false" />
           <Property Name="Surname" Type="String" MaxLength="50" FixedLength="true" Unicode="true" />
           <NavigationProperty Name="Jobs" Relationship="Self.FK_JobWorker" FromRole="Workers" ToRole="Jobs" />
@@ -176,7 +176,7 @@
               <PropertyRef Name="UserId" />
             </Principal>
             <Dependent Role="Jobs">
-              <PropertyRef Name="Client_clientId" />
+              <PropertyRef Name="ClientId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -188,7 +188,7 @@
               <PropertyRef Name="UserId" />
             </Principal>
             <Dependent Role="Jobs">
-              <PropertyRef Name="Worker_workerId" />
+              <PropertyRef Name="WorkerId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -217,11 +217,11 @@
         </EntityType>
         <EntityType Name="Certificate">
           <Key>
-            <PropertyRef Name="certificateId" />
+            <PropertyRef Name="CertificateId" />
           </Key>
-          <Property Name="certificateId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="CertificateId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <NavigationProperty Name="Worker" Relationship="handymanModel.WorkerCertificate" FromRole="Certificate" ToRole="Worker" />
-          <Property Name="WorkerUserId" Type="Int32" Nullable="false" />
+          <Property Name="WorkerId" Type="Int32" Nullable="false" />
         </EntityType>
         <Association Name="WorkerCertificate">
           <End Type="handymanModel.Worker" Role="Worker" Multiplicity="1" />
@@ -231,7 +231,7 @@
               <PropertyRef Name="UserId" />
             </Principal>
             <Dependent Role="Certificate">
-              <PropertyRef Name="WorkerUserId" />
+              <PropertyRef Name="WorkerId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -244,11 +244,9 @@
     <EntitySetMapping Name="Jobs">
       <EntityTypeMapping TypeName="IsTypeOf(handymanModel.Job)">
         <MappingFragment StoreEntitySet="Jobs">
-          <ScalarProperty Name="workerId" ColumnName="workerId" />
-          <ScalarProperty Name="clientId" ColumnName="clientId" />
-          <ScalarProperty Name="task" ColumnName="task" />
-          <ScalarProperty Name="Client_clientId" ColumnName="Client_clientId" />
-          <ScalarProperty Name="Worker_workerId" ColumnName="Worker_workerId" />
+          <ScalarProperty Name="Task" ColumnName="task" />
+          <ScalarProperty Name="ClientId" ColumnName="Client_clientId" />
+          <ScalarProperty Name="WorkerId" ColumnName="Worker_workerId" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -261,15 +259,15 @@
       <EntityTypeMapping TypeName="IsTypeOf(handymanModel.Client)">
         <MappingFragment StoreEntitySet="Users_Client">
           <ScalarProperty Name="UserId" ColumnName="UserId" />
-          <ScalarProperty Name="clientId" ColumnName="clientId" />
-          <ScalarProperty Name="email" ColumnName="email" />
+          <ScalarProperty Name="ClientId" ColumnName="clientId" />
+          <ScalarProperty Name="Email" ColumnName="email" />
           <ScalarProperty Name="Name" ColumnName="Name" />
         </MappingFragment>
       </EntityTypeMapping>
       <EntityTypeMapping TypeName="IsTypeOf(handymanModel.Worker)">
         <MappingFragment StoreEntitySet="Users_Worker">
           <ScalarProperty Name="UserId" ColumnName="UserId" />
-          <ScalarProperty Name="workerId" ColumnName="workerId" />
+          <ScalarProperty Name="WorkerId" ColumnName="workerId" />
           <ScalarProperty Name="Name" ColumnName="Name" />
           <ScalarProperty Name="Surname" ColumnName="Surname" />
         </MappingFragment>
@@ -278,8 +276,8 @@
     <EntitySetMapping Name="Certificates">
       <EntityTypeMapping TypeName="IsTypeOf(handymanModel.Certificate)">
         <MappingFragment StoreEntitySet="Certificates">
-          <ScalarProperty Name="certificateId" ColumnName="certificateId" />
-          <ScalarProperty Name="WorkerUserId" ColumnName="WorkerUserId" />
+          <ScalarProperty Name="CertificateId" ColumnName="certificateId" />
+          <ScalarProperty Name="WorkerId" ColumnName="WorkerUserId" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
