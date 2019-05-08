@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Common;
+using Common.Mappers;
 using Common.Models;
 using Data;
 using Data.DB_Models;
@@ -35,7 +36,7 @@ namespace Logic
             }
             catch (Exception e)
             {
-                status.SetStatus(System.Net.HttpStatusCode.InternalServerError, "Error on Load Client");
+                status.SetStatus(System.Net.HttpStatusCode.InternalServerError, e.Message, e.StackTrace, "Error on Load Client");
             }
             return status;
         }
@@ -65,7 +66,7 @@ namespace Logic
             }
             catch (Exception e)
             {
-                status.SetStatus(System.Net.HttpStatusCode.InternalServerError, "Error on Update Client");
+                status.SetStatus(System.Net.HttpStatusCode.InternalServerError, e.Message, e.StackTrace, "Error on Update Client");
             }
 
             return status;

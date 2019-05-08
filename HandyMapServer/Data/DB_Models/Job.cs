@@ -14,12 +14,6 @@ namespace Data.DB_Models
     
     public partial class Job
     {
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public Job()
-        {
-            this.Addresses = new HashSet<Address>();
-        }
-    
         public int job_id { get; set; }
         public int client_id { get; set; }
         public int worker_id { get; set; }
@@ -29,9 +23,6 @@ namespace Data.DB_Models
         public Nullable<System.DateTime> end_datetime { get; set; }
         public int job_status { get; set; }
     
-        public virtual Client Client { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Address> Addresses { get; set; }
-        public virtual Worker Worker { get; set; }
+        public virtual Address Address { get; set; }
     }
 }

@@ -15,15 +15,11 @@ namespace Data.DB_Models
     public partial class Address
     {
         public int job_id { get; set; }
-        public int client_id { get; set; }
         public string address_line_1 { get; set; }
         public string address_line_2 { get; set; }
         public string address_line_3 { get; set; }
         public string province { get; set; }
         public string city { get; set; }
         public string zip_code { get; set; }
-    
-        public virtual Client Client { get; set; }
-        public virtual Job Job { get; set; }
     }
 }

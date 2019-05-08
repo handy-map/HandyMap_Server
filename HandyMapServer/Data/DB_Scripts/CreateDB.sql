@@ -52,16 +52,13 @@ create table Job
 );
 create table Address
 (
-    job_id INTEGER NOT NULL,
-    client_id INTEGER NOT NULL,
-    address_line_1 VARCHAR(255),
+    job_id INTEGER PRIMARY KEY NOT NULL,
+    address_line_1 VARCHAR(255) NOT NULL,
     address_line_2 VARCHAR(255),
     address_line_3 VARCHAR(255),
-    province VARCHAR(50),
-    city VARCHAR(255),
-    zip_code CHAR(4),
+    province VARCHAR(50) NOT NULL,
+    city VARCHAR(255) NOT NULL,
+    zip_code CHAR(4) NOT NULL,
 	CONSTRAINT
-		fk_job_id FOREIGN KEY(job_id) references Job(job_id),
-	CONSTRAINT
-		fk2_client_id FOREIGN KEY(client_id) references Client(client_id)
+		fk_job_id FOREIGN KEY(job_id) references Job(job_id)
 )

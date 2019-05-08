@@ -18,7 +18,6 @@ namespace Data.DB_Models
         public Client()
         {
             this.Jobs = new HashSet<Job>();
-            this.Addresses = new HashSet<Address>();
         }
     
         public int client_id { get; set; }
@@ -31,7 +30,5 @@ namespace Data.DB_Models
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Job> Jobs { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Address> Addresses { get; set; }
     }
 }

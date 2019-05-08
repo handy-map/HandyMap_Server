@@ -16,7 +16,5 @@ namespace Data.DB_Models
     {
         public int skill_id { get; set; }
         public string skill_name { get; set; }
-    
-        public virtual Worker Worker { get; set; }
     }
 }

@@ -25,10 +25,10 @@ namespace Data.DB_Models
             throw new UnintentionalCodeFirstException();
         }
     
+        public virtual DbSet<Address> Addresses { get; set; }
         public virtual DbSet<Client> Clients { get; set; }
         public virtual DbSet<Job> Jobs { get; set; }
         public virtual DbSet<Skill> Skills { get; set; }
         public virtual DbSet<Worker> Workers { get; set; }
-        public virtual DbSet<Address> Addresses { get; set; }
     }
 }
