@@ -177,6 +177,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ClientData.cs" />
+    <Compile Include="DB_Models\Address.cs">
+      <DependentUpon>HandyMap.tt</DependentUpon>
+    </Compile>
     <Compile Include="DB_Models\Client.cs">
       <DependentUpon>HandyMap.tt</DependentUpon>
     </Compile>
@@ -195,6 +198,16 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>HandyMap.edmx</DependentUpon>
     </Compile>
+    <Compile Include="DB_Models\Job.cs">
+      <DependentUpon>HandyMap.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DB_Models\Skill.cs">
+      <DependentUpon>HandyMap.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DB_Models\Worker.cs">
+      <DependentUpon>HandyMap.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Exceptions\NotFoundException.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -211,6 +224,7 @@
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <Content Include="DB_Models\HandyMap.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
@@ -222,9 +236,7 @@
       <DependentUpon>HandyMap.edmx</DependentUpon>
       <LastGenOutput>HandyMap.cs</LastGenOutput>
     </Content>
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="DB_Scripts\" />
+    <Content Include="DB_Scripts\CreateDB.sql" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -22,9 +22,9 @@ namespace WebApp.Controllers
         }
 
         [HttpGet("{id}")]
-        public async Task<IActionResult> Get(int id)
+        public IActionResult Get(int id)
         {
-            var result = await _clientLogic.LoadClient(id);
+            var result = _clientLogic.LoadClient(id);
 
             //convert and return json
 
@@ -35,7 +35,7 @@ namespace WebApp.Controllers
 
         // POST: api/Client
         [HttpPost]
-        public async Task<IActionResult> AddClient([System.Web.Http.FromBody]ClientModel client)
+        public IActionResult AddClient([System.Web.Http.FromBody]ClientModel client)
         {
             var result = _clientLogic.SaveClient(client);
 
