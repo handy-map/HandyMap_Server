@@ -40,5 +40,10 @@ namespace Common
         {
             return item.Select(x => x.ToModel());
         }
+
+        public static IEnumerable<Client> ToEntity(this List<ClientModel> item)
+        {
+            return item.Select(x => x.ToEntity());
+        }
     }
 }

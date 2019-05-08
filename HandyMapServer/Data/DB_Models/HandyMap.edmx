@@ -5,19 +5,188 @@
     <!-- SSDL content -->
     <edmx:StorageModels>
       <Schema Namespace="HandyMapModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'HandyMap.dbo.Address' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="Address">
+          <Key>
+            <PropertyRef Name="job_id" />
+            <PropertyRef Name="client_id" />
+          </Key>
+          <Property Name="job_id" Type="int" Nullable="false" />
+          <Property Name="client_id" Type="int" Nullable="false" />
+          <Property Name="address_line_1" Type="varchar" MaxLength="255" />
+          <Property Name="address_line_2" Type="varchar" MaxLength="255" />
+          <Property Name="address_line_3" Type="varchar" MaxLength="255" />
+          <Property Name="province" Type="varchar" MaxLength="50" />
+          <Property Name="city" Type="varchar" MaxLength="255" />
+          <Property Name="zip_code" Type="char" MaxLength="4" />
+        </EntityType>
         <EntityType Name="Client">
           <Key>
             <PropertyRef Name="client_id" />
           </Key>
           <Property Name="client_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="name" Type="varchar" MaxLength="250" />
-          <Property Name="surname" Type="varchar" MaxLength="250" />
-          <Property Name="email" Type="varchar" MaxLength="250" />
-          <Property Name="password" Type="varchar" MaxLength="250" />
-          <Property Name="contact_number" Type="varchar" MaxLength="25" />
+          <Property Name="name" Type="varchar" MaxLength="255" />
+          <Property Name="surname" Type="varchar" MaxLength="255" />
+          <Property Name="email" Type="varchar" MaxLength="255" />
+          <Property Name="password" Type="varchar" MaxLength="255" />
+          <Property Name="contact_number" Type="char" MaxLength="10" />
+          <Property Name="profile_picure" Type="varbinary(max)" />
         </EntityType>
+        <EntityType Name="Job">
+          <Key>
+            <PropertyRef Name="job_id" />
+          </Key>
+          <Property Name="job_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="client_id" Type="int" Nullable="false" />
+          <Property Name="worker_id" Type="int" Nullable="false" />
+          <Property Name="title" Type="varchar" MaxLength="255" />
+          <Property Name="description" Type="varchar" MaxLength="255" />
+          <Property Name="start_datetime" Type="datetime" />
+          <Property Name="end_datetime" Type="datetime" />
+          <Property Name="job_status" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Skills">
+          <Key>
+            <PropertyRef Name="skill_id" />
+          </Key>
+          <Property Name="skill_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="skill_name" Type="varchar" MaxLength="255" />
+        </EntityType>
+        <EntityType Name="Worker">
+          <Key>
+            <PropertyRef Name="worker_id" />
+          </Key>
+          <Property Name="worker_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="name" Type="varchar" MaxLength="255" />
+          <Property Name="surname" Type="varchar" MaxLength="255" />
+          <Property Name="email" Type="varchar" MaxLength="255" />
+          <Property Name="password" Type="varchar" MaxLength="255" />
+          <Property Name="contact_number" Type="char" MaxLength="10" />
+          <Property Name="rating" Type="decimal" Precision="5" Scale="2" />
+          <Property Name="profile_picture" Type="varbinary(max)" />
+        </EntityType>
+        <EntityType Name="Worker_Skills">
+          <Key>
+            <PropertyRef Name="skill_id" />
+          </Key>
+          <Property Name="worker_id" Type="int" Nullable="false" />
+          <Property Name="skill_id" Type="int" Nullable="false" />
+        </EntityType>
+        <Association Name="fk_client_id">
+          <End Role="Client" Type="Self.Client" Multiplicity="1" />
+          <End Role="Job" Type="Self.Job" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Client">
+              <PropertyRef Name="client_id" />
+            </Principal>
+            <Dependent Role="Job">
+              <PropertyRef Name="client_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_job_id">
+          <End Role="Job" Type="Self.Job" Multiplicity="1" />
+          <End Role="Address" Type="Self.Address" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Job">
+              <PropertyRef Name="job_id" />
+            </Principal>
+            <Dependent Role="Address">
+              <PropertyRef Name="job_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_skill_id">
+          <End Role="Skills" Type="Self.Skills" Multiplicity="1" />
+          <End Role="Worker_Skills" Type="Self.Worker_Skills" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Skills">
+              <PropertyRef Name="skill_id" />
+            </Principal>
+            <Dependent Role="Worker_Skills">
+              <PropertyRef Name="skill_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_worker_id">
+          <End Role="Worker" Type="Self.Worker" Multiplicity="1" />
+          <End Role="Worker_Skills" Type="Self.Worker_Skills" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Worker">
+              <PropertyRef Name="worker_id" />
+            </Principal>
+            <Dependent Role="Worker_Skills">
+              <PropertyRef Name="worker_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk2_client_id">
+          <End Role="Client" Type="Self.Client" Multiplicity="1" />
+          <End Role="Address" Type="Self.Address" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Client">
+              <PropertyRef Name="client_id" />
+            </Principal>
+            <Dependent Role="Address">
+              <PropertyRef Name="client_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk2_worker_id">
+          <End Role="Worker" Type="Self.Worker" Multiplicity="1" />
+          <End Role="Job" Type="Self.Job" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Worker">
+              <PropertyRef Name="worker_id" />
+            </Principal>
+            <Dependent Role="Job">
+              <PropertyRef Name="worker_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <EntityContainer Name="HandyMapModelStoreContainer">
           <EntitySet Name="Client" EntityType="Self.Client" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Job" EntityType="Self.Job" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Skills" EntityType="Self.Skills" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Worker" EntityType="Self.Worker" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Worker_Skills" EntityType="Self.Worker_Skills" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Address" EntityType="Self.Address" store:Type="Tables" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [Address].[job_id] AS [job_id], 
+    [Address].[client_id] AS [client_id], 
+    [Address].[address_line_1] AS [address_line_1], 
+    [Address].[address_line_2] AS [address_line_2], 
+    [Address].[address_line_3] AS [address_line_3], 
+    [Address].[province] AS [province], 
+    [Address].[city] AS [city], 
+    [Address].[zip_code] AS [zip_code]
+    FROM [dbo].[Address] AS [Address]</DefiningQuery>
+          </EntitySet>
+          <AssociationSet Name="fk_client_id" Association="Self.fk_client_id">
+            <End Role="Client" EntitySet="Client" />
+            <End Role="Job" EntitySet="Job" />
+          </AssociationSet>
+          <AssociationSet Name="fk_job_id" Association="Self.fk_job_id">
+            <End Role="Job" EntitySet="Job" />
+            <End Role="Address" EntitySet="Address" />
+          </AssociationSet>
+          <AssociationSet Name="fk_skill_id" Association="Self.fk_skill_id">
+            <End Role="Skills" EntitySet="Skills" />
+            <End Role="Worker_Skills" EntitySet="Worker_Skills" />
+          </AssociationSet>
+          <AssociationSet Name="fk_worker_id" Association="Self.fk_worker_id">
+            <End Role="Worker" EntitySet="Worker" />
+            <End Role="Worker_Skills" EntitySet="Worker_Skills" />
+          </AssociationSet>
+          <AssociationSet Name="fk2_client_id" Association="Self.fk2_client_id">
+            <End Role="Client" EntitySet="Client" />
+            <End Role="Address" EntitySet="Address" />
+          </AssociationSet>
+          <AssociationSet Name="fk2_worker_id" Association="Self.fk2_worker_id">
+            <End Role="Worker" EntitySet="Worker" />
+            <End Role="Job" EntitySet="Job" />
+          </AssociationSet>
         </EntityContainer>
       </Schema>
     </edmx:StorageModels>
@@ -29,14 +198,148 @@
             <PropertyRef Name="client_id" />
           </Key>
           <Property Name="client_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="name" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
-          <Property Name="surname" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
-          <Property Name="email" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
-          <Property Name="password" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
-          <Property Name="contact_number" Type="String" MaxLength="25" FixedLength="false" Unicode="false" />
+          <Property Name="name" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="surname" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="email" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="password" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="contact_number" Type="String" MaxLength="10" FixedLength="true" Unicode="false" />
+          <Property Name="profile_picure" Type="Binary" MaxLength="Max" FixedLength="false" />
+          <NavigationProperty Name="Jobs" Relationship="Self.fk_client_id" FromRole="Client" ToRole="Job" />
+          <NavigationProperty Name="Addresses" Relationship="Self.fk2_client_id" FromRole="Client" ToRole="Address" />
         </EntityType>
+        <EntityType Name="Job">
+          <Key>
+            <PropertyRef Name="job_id" />
+          </Key>
+          <Property Name="job_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="client_id" Type="Int32" Nullable="false" />
+          <Property Name="worker_id" Type="Int32" Nullable="false" />
+          <Property Name="title" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="description" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="start_datetime" Type="DateTime" Precision="3" />
+          <Property Name="end_datetime" Type="DateTime" Precision="3" />
+          <Property Name="job_status" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Client" Relationship="Self.fk_client_id" FromRole="Job" ToRole="Client" />
+          <NavigationProperty Name="Addresses" Relationship="Self.fk_job_id" FromRole="Job" ToRole="Address" />
+          <NavigationProperty Name="Worker" Relationship="Self.fk2_worker_id" FromRole="Job" ToRole="Worker" />
+        </EntityType>
+        <EntityType Name="Skill">
+          <Key>
+            <PropertyRef Name="skill_id" />
+          </Key>
+          <Property Name="skill_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="skill_name" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Worker" Relationship="Self.Worker_Skills" FromRole="Skills" ToRole="Worker" />
+        </EntityType>
+        <EntityType Name="Worker">
+          <Key>
+            <PropertyRef Name="worker_id" />
+          </Key>
+          <Property Name="worker_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="name" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="surname" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="email" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="password" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="contact_number" Type="String" MaxLength="10" FixedLength="true" Unicode="false" />
+          <Property Name="rating" Type="Decimal" Precision="5" Scale="2" />
+          <Property Name="profile_picture" Type="Binary" MaxLength="Max" FixedLength="false" />
+          <NavigationProperty Name="Jobs" Relationship="Self.fk2_worker_id" FromRole="Worker" ToRole="Job" />
+          <NavigationProperty Name="Skills" Relationship="Self.Worker_Skills" FromRole="Worker" ToRole="Skills" />
+        </EntityType>
+        <EntityType Name="Address">
+          <Key>
+            <PropertyRef Name="job_id" />
+            <PropertyRef Name="client_id" />
+          </Key>
+          <Property Name="job_id" Type="Int32" Nullable="false" />
+          <Property Name="client_id" Type="Int32" Nullable="false" />
+          <Property Name="address_line_1" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="address_line_2" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="address_line_3" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="province" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="city" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="zip_code" Type="String" MaxLength="4" FixedLength="true" Unicode="false" />
+          <NavigationProperty Name="Client" Relationship="Self.fk2_client_id" FromRole="Address" ToRole="Client" />
+          <NavigationProperty Name="Job" Relationship="Self.fk_job_id" FromRole="Address" ToRole="Job" />
+        </EntityType>
+        <Association Name="fk_client_id">
+          <End Role="Client" Type="Self.Client" Multiplicity="1" />
+          <End Role="Job" Type="Self.Job" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Client">
+              <PropertyRef Name="client_id" />
+            </Principal>
+            <Dependent Role="Job">
+              <PropertyRef Name="client_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk2_client_id">
+          <End Role="Client" Type="Self.Client" Multiplicity="1" />
+          <End Role="Address" Type="Self.Address" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Client">
+              <PropertyRef Name="client_id" />
+            </Principal>
+            <Dependent Role="Address">
+              <PropertyRef Name="client_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_job_id">
+          <End Role="Job" Type="Self.Job" Multiplicity="1" />
+          <End Role="Address" Type="Self.Address" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Job">
+              <PropertyRef Name="job_id" />
+            </Principal>
+            <Dependent Role="Address">
+              <PropertyRef Name="job_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk2_worker_id">
+          <End Role="Worker" Type="Self.Worker" Multiplicity="1" />
+          <End Role="Job" Type="Self.Job" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Worker">
+              <PropertyRef Name="worker_id" />
+            </Principal>
+            <Dependent Role="Job">
+              <PropertyRef Name="worker_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="Worker_Skills">
+          <End Role="Skills" Type="Self.Skill" Multiplicity="*" />
+          <End Role="Worker" Type="Self.Worker" Multiplicity="0..1" />
+        </Association>
         <EntityContainer Name="HandyMapEntities" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="Clients" EntityType="Self.Client" />
+          <EntitySet Name="Jobs" EntityType="Self.Job" />
+          <EntitySet Name="Skills" EntityType="Self.Skill" />
+          <EntitySet Name="Workers" EntityType="Self.Worker" />
+          <EntitySet Name="Addresses" EntityType="Self.Address" />
+          <AssociationSet Name="fk_client_id" Association="Self.fk_client_id">
+            <End Role="Client" EntitySet="Clients" />
+            <End Role="Job" EntitySet="Jobs" />
+          </AssociationSet>
+          <AssociationSet Name="fk2_client_id" Association="Self.fk2_client_id">
+            <End Role="Client" EntitySet="Clients" />
+            <End Role="Address" EntitySet="Addresses" />
+          </AssociationSet>
+          <AssociationSet Name="fk_job_id" Association="Self.fk_job_id">
+            <End Role="Job" EntitySet="Jobs" />
+            <End Role="Address" EntitySet="Addresses" />
+          </AssociationSet>
+          <AssociationSet Name="fk2_worker_id" Association="Self.fk2_worker_id">
+            <End Role="Worker" EntitySet="Workers" />
+            <End Role="Job" EntitySet="Jobs" />
+          </AssociationSet>
+          <AssociationSet Name="Worker_Skills" Association="Self.Worker_Skills">
+            <End Role="Skills" EntitySet="Skills" />
+            <End Role="Worker" EntitySet="Workers" />
+          </AssociationSet>
         </EntityContainer>
       </Schema>
     </edmx:ConceptualModels>
@@ -53,9 +356,68 @@
                 <ScalarProperty Name="email" ColumnName="email" />
                 <ScalarProperty Name="password" ColumnName="password" />
                 <ScalarProperty Name="contact_number" ColumnName="contact_number" />
+                <ScalarProperty Name="profile_picure" ColumnName="profile_picure" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="Jobs">
+            <EntityTypeMapping TypeName="HandyMapModel.Job">
+              <MappingFragment StoreEntitySet="Job">
+                <ScalarProperty Name="job_id" ColumnName="job_id" />
+                <ScalarProperty Name="client_id" ColumnName="client_id" />
+                <ScalarProperty Name="worker_id" ColumnName="worker_id" />
+                <ScalarProperty Name="title" ColumnName="title" />
+                <ScalarProperty Name="description" ColumnName="description" />
+                <ScalarProperty Name="start_datetime" ColumnName="start_datetime" />
+                <ScalarProperty Name="end_datetime" ColumnName="end_datetime" />
+                <ScalarProperty Name="job_status" ColumnName="job_status" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Skills">
+            <EntityTypeMapping TypeName="HandyMapModel.Skill">
+              <MappingFragment StoreEntitySet="Skills">
+                <ScalarProperty Name="skill_id" ColumnName="skill_id" />
+                <ScalarProperty Name="skill_name" ColumnName="skill_name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Workers">
+            <EntityTypeMapping TypeName="HandyMapModel.Worker">
+              <MappingFragment StoreEntitySet="Worker">
+                <ScalarProperty Name="worker_id" ColumnName="worker_id" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="surname" ColumnName="surname" />
+                <ScalarProperty Name="email" ColumnName="email" />
+                <ScalarProperty Name="password" ColumnName="password" />
+                <ScalarProperty Name="contact_number" ColumnName="contact_number" />
+                <ScalarProperty Name="rating" ColumnName="rating" />
+                <ScalarProperty Name="profile_picture" ColumnName="profile_picture" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Addresses">
+            <EntityTypeMapping TypeName="HandyMapModel.Address">
+              <MappingFragment StoreEntitySet="Address">
+                <ScalarProperty Name="job_id" ColumnName="job_id" />
+                <ScalarProperty Name="client_id" ColumnName="client_id" />
+                <ScalarProperty Name="address_line_1" ColumnName="address_line_1" />
+                <ScalarProperty Name="address_line_2" ColumnName="address_line_2" />
+                <ScalarProperty Name="address_line_3" ColumnName="address_line_3" />
+                <ScalarProperty Name="province" ColumnName="province" />
+                <ScalarProperty Name="city" ColumnName="city" />
+                <ScalarProperty Name="zip_code" ColumnName="zip_code" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <AssociationSetMapping Name="Worker_Skills" TypeName="HandyMapModel.Worker_Skills" StoreEntitySet="Worker_Skills">
+            <EndProperty Name="Skills">
+              <ScalarProperty Name="skill_id" ColumnName="skill_id" />
+            </EndProperty>
+            <EndProperty Name="Worker">
+              <ScalarProperty Name="worker_id" ColumnName="worker_id" />
+            </EndProperty>
+          </AssociationSetMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

@@ -26,5 +26,9 @@ namespace Data.DB_Models
         }
     
         public virtual DbSet<Client> Clients { get; set; }
+        public virtual DbSet<Job> Jobs { get; set; }
+        public virtual DbSet<Skill> Skills { get; set; }
+        public virtual DbSet<Worker> Workers { get; set; }
+        public virtual DbSet<Address> Addresses { get; set; }
     }
 }

@@ -4,8 +4,21 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="a376028d05fc418d8c371769d4fdbc33" Name="Diagram1">
-        <EntityTypeShape EntityType="HandyMapModel.Client" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
+      <Diagram DiagramId="70b24d8028aa48cba9dfff88909f0dd9" Name="Diagram1">
+        <EntityTypeShape EntityType="HandyMapModel.Client" Width="1.5" PointX="0.75" PointY="1.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="HandyMapModel.Job" Width="1.5" PointX="3" PointY="0.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="HandyMapModel.Skill" Width="1.5" PointX="5.375" PointY="4.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="HandyMapModel.Worker" Width="1.5" PointX="5.375" PointY="0.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="HandyMapModel.Address" Width="1.5" PointX="2.125" PointY="4.25" IsExpanded="true" />
+        <AssociationConnector Association="HandyMapModel.fk_client_id" ManuallyRouted="false" />
+        <AssociationConnector Association="HandyMapModel.fk2_client_id" ManuallyRouted="true" >
+          <ConnectorPoint PointX="1.4374995" PointY="3.8744921874999996" />
+          <ConnectorPoint PointX="1.4374995" PointY="5.1659915763180271" />
+          <ConnectorPoint PointX="2.125" PointY="5.1659915763180271" />
+        </AssociationConnector>
+        <AssociationConnector Association="HandyMapModel.fk_job_id" ManuallyRouted="false" />
+        <AssociationConnector Association="HandyMapModel.fk2_worker_id" ManuallyRouted="false" />
+        <AssociationConnector Association="HandyMapModel.Worker_Skills" ManuallyRouted="false" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

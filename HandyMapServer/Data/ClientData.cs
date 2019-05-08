@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Data.DB_Models;
+using Data.Exceptions;
 
 namespace Data
 {
@@ -23,7 +24,7 @@ namespace Data
 
             if (data == null)
             {
-                return new Client();
+                throw new NotFoundException("Client not found");
             }
             else
             {
@@ -41,6 +42,25 @@ namespace Data
             var data = _dbContext.Clients;
 
             return data;
+        }
+
+        public void UpdateClient(Client client)
+        {
+            var clientToUpdate = _dbContext.Clients.FirstOrDefault(x => x.client_id == client.client_id);
+
+            if (clientToUpdate == null)
+            {
+                throw new NotFoundException("Client not found");
+            }
+            else
+            {
+                clientToUpdate.contact_number = client.contact_number;
+                clientToUpdate.email = client.email;
+                clientToUpdate.name = client.name;
+                clientToUpdate.surname = client.surname;
+                clientToUpdate.profile_picure = client.profile_picure;
+                clientToUpdate.password = client.password;
+            }
         }
     }
 }

@@ -7,6 +7,8 @@ using Common;
 using Common.Models;
 using Data;
 using Data.DB_Models;
+using Data.Exceptions;
+using Logic.Models;
 
 namespace Logic
 {
@@ -18,14 +20,55 @@ namespace Logic
             _clientData = new ClientData();
         }
 
-        public ClientModel LoadClient(int clientId)
+        public StatusModel<ClientModel> LoadClient(int clientId)
         {
-            return _clientData.LoadClient(clientId).ToModel();
+            var status = new StatusModel<ClientModel>();
+
+            try
+            {
+                var result = _clientData.LoadClient(clientId).ToModel();
+                status.SetStatus(System.Net.HttpStatusCode.OK, result);
+            }
+            catch (NotFoundException e)
+            {
+                status.SetStatus(System.Net.HttpStatusCode.NotFound, e.Message);
+            }
+            catch (Exception e)
+            {
+                status.SetStatus(System.Net.HttpStatusCode.InternalServerError, "Error on Load Client");
+            }
+            return status;
         }
 
-        public void SaveClient(Client client)
+        public StatusModel<string> SaveClient(ClientModel client)
         {
-            _clientData.SaveClient(client);
+            var status = new StatusModel<string>();
+            // TODO: Put try catch here for exception
+            _clientData.SaveClient(client.ToEntity());
+            status.SetStatus(System.Net.HttpStatusCode.OK, "Client saved successfully");
+
+            return status;
+        }
+
+        public StatusModel<string> UpdateClientInfo(ClientModel client)
+        {
+            var status = new StatusModel<string>();
+
+            try
+            {
+                _clientData.UpdateClient(client.ToEntity());
+                status.SetStatus(System.Net.HttpStatusCode.OK, "Client updated successfully");
+            }
+            catch (NotFoundException e)
+            {
+                status.SetStatus(System.Net.HttpStatusCode.NotFound, e.Message);
+            }
+            catch (Exception e)
+            {
+                status.SetStatus(System.Net.HttpStatusCode.InternalServerError, "Error on Update Client");
+            }
+
+            return status;
         }
     }
 }
