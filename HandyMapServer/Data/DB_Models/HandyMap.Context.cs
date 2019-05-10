@@ -30,5 +30,6 @@ namespace Data.DB_Models
         public virtual DbSet<Job> Jobs { get; set; }
         public virtual DbSet<Skill> Skills { get; set; }
         public virtual DbSet<Worker> Workers { get; set; }
+        public virtual DbSet<WorkerSkills> WorkerSkills1 { get; set; }
     }
 }

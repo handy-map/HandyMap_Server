@@ -46,7 +46,7 @@ namespace Data
 
         public IEnumerable<Worker> GetWorkersByPrimarySkill(int skill_id)
         {
-            var data = _dbContext.Workers.Where(x => x.Skills.First().skill_id == skill_id);
+            var data = _dbContext.Workers.Where(x => x.WorkerSkills.First().skill_id == skill_id);
 
             return data.ToList();
         }
@@ -68,13 +68,13 @@ namespace Data
                 workerToUpdate.profile_picture = worker.profile_picture;
                 workerToUpdate.password = worker.password;
 
-                workerToUpdate.Skills = new List<Skill>();
-                foreach (var skill in worker.Skills)
+                workerToUpdate.WorkerSkills = new List<WorkerSkills>();
+                foreach (var skill in worker.WorkerSkills)
                 {
-                    workerToUpdate.Skills.Add(new Skill()
+                    workerToUpdate.WorkerSkills.Add(new WorkerSkills()
                     {
                         skill_id = skill.skill_id,
-                        skill_name = skill.skill_name
+                        worker_id = skill.worker_id
                     });
                 }
             }

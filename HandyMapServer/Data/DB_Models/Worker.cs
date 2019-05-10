@@ -18,7 +18,7 @@ namespace Data.DB_Models
         public Worker()
         {
             this.Jobs = new HashSet<Job>();
-            this.Skills = new HashSet<Skill>();
+            this.WorkerSkills = new HashSet<WorkerSkills>();
         }
     
         public int worker_id { get; set; }
@@ -33,6 +33,6 @@ namespace Data.DB_Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Job> Jobs { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Skill> Skills { get; set; }
+        public virtual ICollection<WorkerSkills> WorkerSkills { get; set; }
     }
 }

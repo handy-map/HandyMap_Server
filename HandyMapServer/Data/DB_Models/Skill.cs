@@ -14,7 +14,18 @@ namespace Data.DB_Models
     
     public partial class Skill
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public Skill()
+        {
+            this.WorkerSkills = new HashSet<WorkerSkills>();
+        }
+    
         public int skill_id { get; set; }
         public string skill_name { get; set; }
+    
+        public virtual Skill Skills1 { get; set; }
+        public virtual Skill Skill1 { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<WorkerSkills> WorkerSkills { get; set; }
     }
 }

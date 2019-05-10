@@ -22,7 +22,7 @@ namespace Common.Mappers
                 Surname = item.surname,
                 ProfilePicture = item.profile_picture,
                 Jobs = new List<JobModel>(),
-                Skills = new List<SkillModel>()
+                Skills = new List<WorkerSkillsModel>()
             };
 
             foreach (var job in item.Jobs)
@@ -47,12 +47,11 @@ namespace Common.Mappers
                 });
             }
 
-            foreach (var skill in item.Skills)
+            foreach (var skill in item.WorkerSkills)
             {
-                toReturn.Skills.Add(new SkillModel()
+                toReturn.Skills.Add(new WorkerSkillsModel()
                 {
-                    Skill_id = skill.skill_id,
-                    Skill_name = skill.skill_name
+                    //todo: put something in here?
                 });
             }
 
@@ -71,7 +70,7 @@ namespace Common.Mappers
                 surname = item.Surname,
                 profile_picture = item.ProfilePicture,
                 Jobs = new List<Job>(),
-                Skills = new List<Skill>()
+                WorkerSkills = new List<WorkerSkills>()
             };
 
             foreach (var job in item.Jobs)
@@ -98,11 +97,11 @@ namespace Common.Mappers
 
             foreach (var skill in item.Skills)
             {
-                toReturn.Skills.Add(new Skill()
-                {
-                    skill_id = skill.Skill_id,
-                    skill_name = skill.Skill_name
-                });
+                //todo: yay! more things to fix
+                //toReturn.WorkerSkills.Add(new WorkerSkills()
+                //{
+                //    skill_id = skill.
+                //});
             }
             return toReturn;
         }

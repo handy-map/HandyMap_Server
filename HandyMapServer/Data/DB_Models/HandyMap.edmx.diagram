@@ -4,16 +4,19 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="cde1de0515dc41269b6c7f0f658aceea" Name="Diagram1">
-        <EntityTypeShape EntityType="HandyMapModel.Address" Width="1.5" PointX="3.25" PointY="3.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="HandyMapModel.Client" Width="1.5" PointX="3.25" PointY="1" IsExpanded="true" />
-        <EntityTypeShape EntityType="HandyMapModel.Job" Width="1.5" PointX="5.25" PointY="1" IsExpanded="true" />
-        <EntityTypeShape EntityType="HandyMapModel.Skill" Width="1.5" PointX="7.375" PointY="4.5" IsExpanded="true" />
-        <EntityTypeShape EntityType="HandyMapModel.Worker" Width="1.5" PointX="7.375" PointY="1" IsExpanded="true" />
+      <Diagram DiagramId="24243f40a70f405289ae77161d6e4047" Name="Diagram1">
+        <EntityTypeShape EntityType="HandyMapModel.Address" Width="1.5" PointX="5.25" PointY="8.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="HandyMapModel.Client" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="HandyMapModel.Job" Width="1.5" PointX="3" PointY="4.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="HandyMapModel.Skill" Width="1.5" PointX="3.75" PointY="1.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="HandyMapModel.Worker" Width="1.5" PointX="0.75" PointY="4.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="HandyMapModel.WorkerSkills" Width="1.5" PointX="6.125" PointY="4.5" IsExpanded="true" />
         <AssociationConnector Association="HandyMapModel.fk_job_id" ManuallyRouted="false" />
         <AssociationConnector Association="HandyMapModel.fk_client_id" ManuallyRouted="false" />
         <AssociationConnector Association="HandyMapModel.fk2_worker_id" ManuallyRouted="false" />
-        <AssociationConnector Association="HandyMapModel.Worker_Skills" ManuallyRouted="false" />
+        <AssociationConnector Association="HandyMapModel.FK_WorkerSkills_Worker" ManuallyRouted="false" />
+        <AssociationConnector Association="HandyMapModel.FK_Skills_Skills" />
+        <AssociationConnector Association="HandyMapModel.FK_WorkerSkills_Skills" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

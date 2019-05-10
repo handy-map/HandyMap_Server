@@ -21,5 +21,7 @@ namespace Data.DB_Models
         public string province { get; set; }
         public string city { get; set; }
         public string zip_code { get; set; }
+    
+        public virtual Job Job { get; set; }
     }
 }

@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="HandyMapModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="HandyMapModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="Address">
           <Key>
             <PropertyRef Name="job_id" />
@@ -47,7 +47,7 @@
             <PropertyRef Name="skill_id" />
           </Key>
           <Property Name="skill_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="skill_name" Type="varchar" MaxLength="255" />
+          <Property Name="skill_name" Type="varchar" MaxLength="250" Nullable="false" />
         </EntityType>
         <EntityType Name="Worker">
           <Key>
@@ -62,10 +62,11 @@
           <Property Name="rating" Type="decimal" Precision="5" Scale="2" />
           <Property Name="profile_picture" Type="varbinary(max)" />
         </EntityType>
-        <EntityType Name="Worker_Skills">
+        <EntityType Name="WorkerSkills">
           <Key>
-            <PropertyRef Name="skill_id" />
+            <PropertyRef Name="worker_skills_id" />
           </Key>
+          <Property Name="worker_skills_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="worker_id" Type="int" Nullable="false" />
           <Property Name="skill_id" Type="int" Nullable="false" />
         </EntityType>
@@ -93,26 +94,38 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="fk_skill_id">
+        <Association Name="FK_Skills_Skills">
           <End Role="Skills" Type="Self.Skills" Multiplicity="1" />
-          <End Role="Worker_Skills" Type="Self.Worker_Skills" Multiplicity="0..1" />
+          <End Role="Skills1" Type="Self.Skills" Multiplicity="0..1" />
           <ReferentialConstraint>
             <Principal Role="Skills">
               <PropertyRef Name="skill_id" />
             </Principal>
-            <Dependent Role="Worker_Skills">
+            <Dependent Role="Skills1">
               <PropertyRef Name="skill_id" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="fk_worker_id">
+        <Association Name="FK_WorkerSkills_Skills">
+          <End Role="Skills" Type="Self.Skills" Multiplicity="1" />
+          <End Role="WorkerSkills" Type="Self.WorkerSkills" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Skills">
+              <PropertyRef Name="skill_id" />
+            </Principal>
+            <Dependent Role="WorkerSkills">
+              <PropertyRef Name="skill_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_WorkerSkills_Worker">
           <End Role="Worker" Type="Self.Worker" Multiplicity="1" />
-          <End Role="Worker_Skills" Type="Self.Worker_Skills" Multiplicity="*" />
+          <End Role="WorkerSkills" Type="Self.WorkerSkills" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Worker">
               <PropertyRef Name="worker_id" />
             </Principal>
-            <Dependent Role="Worker_Skills">
+            <Dependent Role="WorkerSkills">
               <PropertyRef Name="worker_id" />
             </Dependent>
           </ReferentialConstraint>
@@ -135,7 +148,7 @@
           <EntitySet Name="Job" EntityType="Self.Job" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Skills" EntityType="Self.Skills" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Worker" EntityType="Self.Worker" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="Worker_Skills" EntityType="Self.Worker_Skills" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="WorkerSkills" EntityType="Self.WorkerSkills" Schema="dbo" store:Type="Tables" />
           <AssociationSet Name="fk_client_id" Association="Self.fk_client_id">
             <End Role="Client" EntitySet="Client" />
             <End Role="Job" EntitySet="Job" />
@@ -144,21 +157,24 @@
             <End Role="Job" EntitySet="Job" />
             <End Role="Address" EntitySet="Address" />
           </AssociationSet>
-          <AssociationSet Name="fk_skill_id" Association="Self.fk_skill_id">
+          <AssociationSet Name="FK_Skills_Skills" Association="Self.FK_Skills_Skills">
             <End Role="Skills" EntitySet="Skills" />
-            <End Role="Worker_Skills" EntitySet="Worker_Skills" />
+            <End Role="Skills1" EntitySet="Skills" />
           </AssociationSet>
-          <AssociationSet Name="fk_worker_id" Association="Self.fk_worker_id">
+          <AssociationSet Name="FK_WorkerSkills_Skills" Association="Self.FK_WorkerSkills_Skills">
+            <End Role="Skills" EntitySet="Skills" />
+            <End Role="WorkerSkills" EntitySet="WorkerSkills" />
+          </AssociationSet>
+          <AssociationSet Name="FK_WorkerSkills_Worker" Association="Self.FK_WorkerSkills_Worker">
             <End Role="Worker" EntitySet="Worker" />
-            <End Role="Worker_Skills" EntitySet="Worker_Skills" />
+            <End Role="WorkerSkills" EntitySet="WorkerSkills" />
           </AssociationSet>
           <AssociationSet Name="fk2_worker_id" Association="Self.fk2_worker_id">
             <End Role="Worker" EntitySet="Worker" />
             <End Role="Job" EntitySet="Job" />
           </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="HandyMapModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -209,8 +225,10 @@
             <PropertyRef Name="skill_id" />
           </Key>
           <Property Name="skill_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="skill_name" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
-          <NavigationProperty Name="Worker" Relationship="Self.Worker_Skills" FromRole="Skills" ToRole="Worker" />
+          <Property Name="skill_name" Type="String" MaxLength="250" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="Skills1" Relationship="HandyMapModel.FK_Skills_Skills" FromRole="Skill" ToRole="Skill1" />
+          <NavigationProperty Name="Skill1" Relationship="HandyMapModel.FK_Skills_Skills" FromRole="Skill1" ToRole="Skill" />
+          <NavigationProperty Name="WorkerSkills" Relationship="HandyMapModel.FK_WorkerSkills_Skills" FromRole="Skill" ToRole="WorkerSkills" />
         </EntityType>
         <EntityType Name="Worker">
           <Key>
@@ -225,7 +243,17 @@
           <Property Name="rating" Type="Decimal" Precision="5" Scale="2" />
           <Property Name="profile_picture" Type="Binary" MaxLength="Max" FixedLength="false" />
           <NavigationProperty Name="Jobs" Relationship="Self.fk2_worker_id" FromRole="Worker" ToRole="Job" />
-          <NavigationProperty Name="Skills" Relationship="Self.Worker_Skills" FromRole="Worker" ToRole="Skills" />
+          <NavigationProperty Name="WorkerSkills" Relationship="Self.FK_WorkerSkills_Worker" FromRole="Worker" ToRole="WorkerSkills" />
+        </EntityType>
+        <EntityType Name="WorkerSkills">
+          <Key>
+            <PropertyRef Name="worker_skills_id" />
+          </Key>
+          <Property Name="worker_skills_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="worker_id" Type="Int32" Nullable="false" />
+          <Property Name="skill_id" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Worker" Relationship="Self.FK_WorkerSkills_Worker" FromRole="WorkerSkills" ToRole="Worker" />
+          <NavigationProperty Name="Skill" Relationship="HandyMapModel.FK_WorkerSkills_Skills" FromRole="WorkerSkills" ToRole="Skill" />
         </EntityType>
         <Association Name="fk_job_id">
           <End Role="Job" Type="Self.Job" Multiplicity="1" />
@@ -263,9 +291,17 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="Worker_Skills">
-          <End Role="Skills" Type="Self.Skill" Multiplicity="*" />
-          <End Role="Worker" Type="Self.Worker" Multiplicity="0..1" />
+        <Association Name="FK_WorkerSkills_Worker">
+          <End Role="Worker" Type="Self.Worker" Multiplicity="1" />
+          <End Role="WorkerSkills" Type="HandyMapModel.WorkerSkills" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Worker">
+              <PropertyRef Name="worker_id" />
+            </Principal>
+            <Dependent Role="WorkerSkills">
+              <PropertyRef Name="worker_id" />
+            </Dependent>
+          </ReferentialConstraint>
         </Association>
         <EntityContainer Name="HandyMapEntities" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="Addresses" EntityType="Self.Address" />
@@ -273,6 +309,7 @@
           <EntitySet Name="Jobs" EntityType="Self.Job" />
           <EntitySet Name="Skills" EntityType="Self.Skill" />
           <EntitySet Name="Workers" EntityType="Self.Worker" />
+          <EntitySet Name="WorkerSkills1" EntityType="HandyMapModel.WorkerSkills" />
           <AssociationSet Name="fk_job_id" Association="Self.fk_job_id">
             <End Role="Job" EntitySet="Jobs" />
             <End Role="Address" EntitySet="Addresses" />
@@ -285,11 +322,43 @@
             <End Role="Worker" EntitySet="Workers" />
             <End Role="Job" EntitySet="Jobs" />
           </AssociationSet>
-          <AssociationSet Name="Worker_Skills" Association="Self.Worker_Skills">
-            <End Role="Skills" EntitySet="Skills" />
+          <AssociationSet Name="FK_WorkerSkills_Worker" Association="Self.FK_WorkerSkills_Worker">
             <End Role="Worker" EntitySet="Workers" />
+            <End Role="WorkerSkills" EntitySet="WorkerSkills1" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Skills_Skills" Association="HandyMapModel.FK_Skills_Skills">
+            <End Role="Skill" EntitySet="Skills" />
+            <End Role="Skill1" EntitySet="Skills" />
+          </AssociationSet>
+          <AssociationSet Name="FK_WorkerSkills_Skills" Association="HandyMapModel.FK_WorkerSkills_Skills">
+            <End Role="Skill" EntitySet="Skills" />
+            <End Role="WorkerSkills" EntitySet="WorkerSkills1" />
           </AssociationSet>
         </EntityContainer>
+        <Association Name="FK_Skills_Skills">
+          <End Type="HandyMapModel.Skill" Role="Skill" Multiplicity="1" />
+          <End Type="HandyMapModel.Skill" Role="Skill1" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Skill">
+              <PropertyRef Name="skill_id" />
+            </Principal>
+            <Dependent Role="Skill1">
+              <PropertyRef Name="skill_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_WorkerSkills_Skills">
+          <End Type="HandyMapModel.Skill" Role="Skill" Multiplicity="1" />
+          <End Type="HandyMapModel.WorkerSkills" Role="WorkerSkills" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Skill">
+              <PropertyRef Name="skill_id" />
+            </Principal>
+            <Dependent Role="WorkerSkills">
+              <PropertyRef Name="skill_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -358,14 +427,15 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <AssociationSetMapping Name="Worker_Skills" TypeName="HandyMapModel.Worker_Skills" StoreEntitySet="Worker_Skills">
-            <EndProperty Name="Skills">
-              <ScalarProperty Name="skill_id" ColumnName="skill_id" />
-            </EndProperty>
-            <EndProperty Name="Worker">
-              <ScalarProperty Name="worker_id" ColumnName="worker_id" />
-            </EndProperty>
-          </AssociationSetMapping>
+          <EntitySetMapping Name="WorkerSkills1">
+            <EntityTypeMapping TypeName="HandyMapModel.WorkerSkills">
+              <MappingFragment StoreEntitySet="WorkerSkills">
+                <ScalarProperty Name="worker_skills_id" ColumnName="worker_skills_id" />
+                <ScalarProperty Name="worker_id" ColumnName="worker_id" />
+                <ScalarProperty Name="skill_id" ColumnName="skill_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

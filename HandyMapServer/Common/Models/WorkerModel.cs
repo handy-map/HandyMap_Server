@@ -14,7 +14,7 @@ namespace Common.Models
         public decimal? Rating { get; set; }
         public byte[] ProfilePicture { get; set; }
         public virtual IList<JobModel> Jobs { get; set; }
-        public virtual IList<SkillModel> Skills { get; set; }
+        public virtual IList<WorkerSkillsModel> Skills { get; set; }
 
     }
 }
