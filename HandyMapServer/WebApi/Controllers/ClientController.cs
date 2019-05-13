@@ -40,8 +40,10 @@ namespace WebApi.Controllers
 
         // PUT: api/Client/5
         [HttpPut]
-        public void UpdateClient(int id, [System.Web.Http.FromBody]ClientModel client)
+        public IHttpActionResult UpdateClient(int id, [System.Web.Http.FromBody]ClientModel client)
         {
+            var result = _clientLogic.UpdateClientInfo(id, client);
+            return Ok(result);
         }
 
         // DELETE: api/Client/5

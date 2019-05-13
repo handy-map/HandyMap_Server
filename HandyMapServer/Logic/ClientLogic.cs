@@ -51,13 +51,13 @@ namespace Logic
             return status;
         }
 
-        public StatusModel<string> UpdateClientInfo(ClientModel client)
+        public StatusModel<string> UpdateClientInfo(int id, ClientModel client)
         {
             var status = new StatusModel<string>();
 
             try
             {
-                _clientData.UpdateClient(client.ToEntity());
+                _clientData.UpdateClient(id, client.ToEntity());
                 status.SetStatus(System.Net.HttpStatusCode.OK, "Client updated successfully");
             }
             catch (NotFoundException e)

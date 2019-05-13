@@ -45,9 +45,9 @@ namespace Data
             return data;
         }
 
-        public void UpdateClient(Client client)
+        public void UpdateClient(int id, Client client)
         {
-            var clientToUpdate = _dbContext.Clients.FirstOrDefault(x => x.client_id == client.client_id);
+            var clientToUpdate = _dbContext.Clients.FirstOrDefault(x => x.client_id == id);
 
             if (clientToUpdate == null)
             {
