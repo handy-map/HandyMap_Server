@@ -35,6 +35,7 @@ namespace Data
         public void SaveClient(Client client)
         {
             _dbContext.Clients.Add(client);
+            _dbContext.SaveChanges();
         }
 
         public IEnumerable<Client> GetClients()
@@ -61,6 +62,8 @@ namespace Data
                 clientToUpdate.profile_picure = client.profile_picure;
                 clientToUpdate.password = client.password;
             }
+
+            _dbContext.SaveChanges();
         }
     }
 }

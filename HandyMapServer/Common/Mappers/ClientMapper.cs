@@ -22,29 +22,31 @@ namespace Common.Mappers
                 Surname = item.surname,
                 ProfilePicture = item.profile_picure
             };
-            
-            toReturn.Jobs = new List<JobModel>();
 
-            foreach (var job in item.Jobs)
+            toReturn.Jobs = new List<JobModel>();
+            if (item.Jobs != null)
             {
-                toReturn.Jobs.Add(new JobModel()
+                foreach (var job in item.Jobs)
                 {
-                    Client_id = job.client_id,
-                    Job_id = job.job_id,
-                    Worker_id = job.worker_id,
-                    Title = job.title,
-                    Description = job.description,
-                    Address = new AddressModel()
+                    toReturn.Jobs.Add(new JobModel()
                     {
-                        Job_id = job.Address.job_id,
-                        Address_line_1 = job.Address.address_line_1,
-                        Address_line_2 = job.Address.address_line_2,
-                        Address_line_3 = job.Address.address_line_3,
-                        City = job.Address.city,
-                        Province = job.Address.province,
-                        Zip_code = job.Address.zip_code
-                    }
-                });
+                        Client_id = job.client_id,
+                        Job_id = job.job_id,
+                        Worker_id = job.worker_id,
+                        Title = job.title,
+                        Description = job.description,
+                        Address = new AddressModel()
+                        {
+                            Job_id = job.Address.job_id,
+                            Address_line_1 = job.Address.address_line_1,
+                            Address_line_2 = job.Address.address_line_2,
+                            Address_line_3 = job.Address.address_line_3,
+                            City = job.Address.city,
+                            Province = job.Address.province,
+                            Zip_code = job.Address.zip_code
+                        }
+                    });
+                }
             }
 
             return toReturn;
@@ -64,28 +66,31 @@ namespace Common.Mappers
             };
 
             toReturn.Jobs = new List<Job>();
-
-            foreach (var job in item.Jobs)
+            if (item.Jobs != null)
             {
-                toReturn.Jobs.Add(new Job()
+                foreach (var job in item.Jobs)
                 {
-                    client_id = job.Client_id,
-                    job_id = job.Job_id,
-                    worker_id = job.Worker_id,
-                    title = job.Title,
-                    description = job.Description,
-                    Address = new Address()
+                    toReturn.Jobs.Add(new Job()
                     {
-                        job_id = job.Address.Job_id,
-                        address_line_1 = job.Address.Address_line_1,
-                        address_line_2 = job.Address.Address_line_2,
-                        address_line_3 = job.Address.Address_line_3,
-                        city = job.Address.City,
-                        province = job.Address.Province,
-                        zip_code = job.Address.Zip_code
-                    }
-                });
+                        client_id = job.Client_id,
+                        job_id = job.Job_id,
+                        worker_id = job.Worker_id,
+                        title = job.Title,
+                        description = job.Description,
+                        Address = new Address()
+                        {
+                            job_id = job.Address.Job_id,
+                            address_line_1 = job.Address.Address_line_1,
+                            address_line_2 = job.Address.Address_line_2,
+                            address_line_3 = job.Address.Address_line_3,
+                            city = job.Address.City,
+                            province = job.Address.Province,
+                            zip_code = job.Address.Zip_code
+                        }
+                    });
+                }
             }
+
             return toReturn;
         }
 
